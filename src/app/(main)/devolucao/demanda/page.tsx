@@ -1,19 +1,28 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { DemandasDoDia } from "@/features/devolucao/views/listaDemandasPorDia";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Calendar } from "@/_shared/components/ui/calendar";
 import { Button } from "@/_shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/_shared/components/ui/card";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function DemandaPage() {
+  return (
+    <Suspense fallback={<div className="p-4">Carregando...</div>}>
+      <DemandaPageInner />
+    </Suspense>
+  );
+}
+
+const DemandaPageInner = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   // Verificar se há parâmetro de data na URL
@@ -25,8 +34,11 @@ export default function DemandaPage() {
       const date = new Date(year, month - 1, day);
       if (!isNaN(date.getTime())) {
         setSelectedDate(date);
+        return;
       }
     }
+    // Fallback para hoje quando não há parâmetro ou é inválido
+    setSelectedDate(new Date());
   }, [searchParams]);
 
   const handleDateSelect = (date: Date | undefined) => {
