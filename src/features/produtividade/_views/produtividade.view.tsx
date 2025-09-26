@@ -19,16 +19,18 @@ export function ProdutividadeView() {
   });
 
 
-  if (isLoading) return <LoadingState />
-  if (error) return <ErrorState />
-
   return (
     <div className="w-full p-4">
       <HeaderDashBoard setOpen={setOpen} />
       <SelecionarInformacoes open={open} setOpen={setOpen} />
-      <OverView overview={overview} />
-      <Filtros />
-      <ListaProdutividade produtividade={produtividade} />
+      <div>
+        {isLoading ? <LoadingState /> : error ? <ErrorState /> : <div>
+          <OverView overview={overview} />
+          <Filtros />
+          <ListaProdutividade produtividade={produtividade} />
+
+        </div>}
+      </div>
     </div>
   )
 }
