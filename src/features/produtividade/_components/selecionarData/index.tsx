@@ -34,7 +34,7 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
         setOpen(false)
       }
     }
-  }, [user, token, dataTrabalho, processo])
+  }, [user, token, dataTrabalho, processo, setOpen])
 
   const handleProcessChange = (value: string) => {
     setSelectedProcess(value)
@@ -50,8 +50,8 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
     setError("")
     
     // Validação
-    if (!date) {
-      setError("Por favor, selecione uma data de trabalho.")
+    if (!date || isNaN(date.getTime())) {
+      setError("Por favor, selecione uma data de trabalho válida.")
       return
     }
     
@@ -63,8 +63,13 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
     setIsLoading(true)
     
     try {
-      // Salvar no store
-      setDataTrabalho(startOfDay(date).toISOString())
+      // Salvar no store com proteção
+      const safeDate = startOfDay(date)
+      if (isNaN(safeDate.getTime())) {
+        throw new Error("Data inválida ao salvar")
+      }
+
+      setDataTrabalho(safeDate.toISOString())
       setProcesso(selectedProcess)
       setToken(user?.accessToken || '')
       
@@ -79,7 +84,7 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
     }
   }
 
-  const isFormValid = date && selectedProcess
+  const isFormValid = date && !isNaN(date.getTime()) && selectedProcess
 
   return (
     <Dialog open={open}>
@@ -111,7 +116,7 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
                 <div className="flex justify-center">
                   <Calendario date={date} setDate={handleDateChange} />
                 </div>
-                {date && (
+                {date && !isNaN(date.getTime()) && (
                   <div className="mt-3 p-2 bg-primary/5 rounded-md border">
                     <p className="text-xs font-medium text-center text-primary">
                       {date.toLocaleDateString('pt-BR', { 
@@ -219,4 +224,3 @@ export default function SelecionarInformacoes({ open, setOpen }: Props) {
     </Dialog>
   )
 }
-

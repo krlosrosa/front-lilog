@@ -6,13 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/_shared/components/ui/accordion"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/_shared/components/ui/card"
 import { Skeleton } from "@/_shared/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/_shared/components/ui/alert"
 

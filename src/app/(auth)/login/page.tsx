@@ -15,11 +15,9 @@ import {
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
-
   const handleKeycloakLogin = async () => {
     setIsLoading(true);
     try {
-      // Isso redireciona automaticamente para o login do Keycloak
       await signIn('keycloak');
     } catch (error) {
       console.error('Erro ao redirecionar para o Keycloak:', error);
@@ -41,7 +39,6 @@ export default function SignIn() {
         draggable
         pauseOnHover
       />
-
       <Card className='w-full max-w-md shadow-lg border'>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-2xl font-bold text-center text-foreground'>

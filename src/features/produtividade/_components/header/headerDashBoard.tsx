@@ -6,7 +6,7 @@ import { IniciarDemandaProdutividadeWithSheet } from "../actions/demanda/iniciar
 import { useDefinicaoStore } from "../../stores/definicao.store";
 import { Button } from "@/_shared/components/ui/button";
 import { CalendarIcon } from "lucide-react";
-import {format} from 'date-fns'
+import { format } from 'date-fns'
 
 type Props = {
   setOpen: (open: boolean) => void
@@ -31,7 +31,9 @@ export function HeaderDashBoard({ setOpen }: Props) {
             Visão geral dos processos logísticos
           </p>
 
-          <Badge variant="outline" className="text-xs lowercase items-center justify-center">{format(dataTrabalho, 'dd/MM/yyyy')}</Badge>
+          <Badge variant="outline" className="text-xs lowercase items-center justify-center">
+            {dataTrabalho ? format(new Date(dataTrabalho), 'dd/MM/yyyy') : 'Sem data'}
+          </Badge>
         </div>
       </div>
       <div className="flex gap-2 w-full md:w-auto items-center">
