@@ -48,9 +48,6 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Bem-vindo ao Sistema
           </h2>
-          <p className="text-gray-600 text-lg">
-            Gerencie suas operações logísticas de forma eficiente
-          </p>
         </div>
 
         {/* Modules Grid */}
